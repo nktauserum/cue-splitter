@@ -1,4 +1,3 @@
-# Сменить на продакшене
 DEBUG_MODE = False
 
 def debug(str):

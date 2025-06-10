@@ -130,7 +130,10 @@ class Album:
             # Нарезаем аудио по указанному интервалу
             sliced_audio = audio[song.start_time:song.end_time]
 
-            output_path = os.path.join(self.folder, f"{song.title} - {song.artist}.flac")
+            filename = f"{song.title} - {song.artist}.flac"
+            filename = re.sub(r'[<>:"/\\|?*]', '', filename)
+
+            output_path = os.path.join(self.folder, filename)
 
             # Сохраняем нарезанное аудио в новый файл
             sliced_audio.export(output_path, format="flac")
@@ -161,6 +164,8 @@ class Album:
                 audio.add_picture(picture)
 
             audio.save()
+
+            print(f"# \033[1m{song.title}\033[0m - {song.artist}")
         debug("Done")
 
 def convert_time_to_milliseconds(time_str):

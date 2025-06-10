@@ -12,6 +12,8 @@ if __name__ == "__main__":
 
 
     try:
+        print()
+        
         album = Album(path_to_folder)
         if cover_path is not None:
             album.cover(cover_path)
