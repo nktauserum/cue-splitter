@@ -16,7 +16,7 @@ if __name__ == "__main__":
         
         album = Album(path_to_folder)
         if cover_path is not None:
-            album.cover(cover_path)
+            album.set_cover(cover_path)
         
         album.slice()
 

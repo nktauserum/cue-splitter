@@ -10,10 +10,9 @@ class Track:
         self.title = title
         self.artist = artist
         self.start_time = start_time
-        end_time = None
 
 class Album:
-    def __init__(self, path_to_folder):
+    def __init__(self, path_to_folder: str):
         self._songs = []
         self.folder = path_to_folder
         self.cue = os.path.abspath(os.path.join(path_to_folder, [f for f in os.listdir(path_to_folder) if f.endswith('.cue')][0]))
@@ -22,15 +21,15 @@ class Album:
         debug(f"Folder: {self.folder}")
         debug(f"CUE: {self.cue}")
 
-        self._parse(self.cue)
+        self._parse()
 
-    def cover(self, cover_path):
+    def set_cover(self, cover_path):
         self.cover = cover_path
 
     def songs(self):
         return self._songs
         
-    def _parse(self, cue_file_path):
+    def _parse(self):
         self.title = None
         self.genre = None
         self.year = None
