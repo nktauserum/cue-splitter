@@ -106,7 +106,7 @@ class Album:
                     current_start_time = match.group(1)
                     current_start_time_ms = convert_time_to_milliseconds(current_start_time)
                 
-                    if current_title and current_artist and current_start_time_ms:
+                    if current_title and current_artist:
                         song = Track(title=current_title, artist=current_artist, start_time=current_start_time_ms)
                         debug(f"Track: {song.title}")
                         self._songs.append(song)
