@@ -1,3 +1,4 @@
+import argparse
 from pydub import AudioSegment
 from mutagen.flac import FLAC
 from mutagen.flac import Picture
@@ -112,7 +113,7 @@ class Album:
                     current_start_time = match.group(1)
                     current_start_time_ms = convert_time_to_milliseconds(current_start_time)
                 
-                    if current_title and current_artist:
+                    if current_title and current_artist and current_start_time is not None:
                         song = Track(title=current_title, artist=current_artist, start_time=current_start_time_ms)
                         debug(f"Track: {song.title}")
                         self._songs.append(song)
@@ -179,13 +180,17 @@ def convert_time_to_milliseconds(time_str):
     return milliseconds
 
 if __name__ == "__main__":
-    path_to_folder = sys.argv[1]
-    cover_path = None
+    p = argparse.ArgumentParser()
+    p.add_argument("-f", "--folder", required=True, help="Папка с исходными файлами")
+    p.add_argument("-o", "--output_path", default=None, help="Путь для сохранения файлов")
+    p.add_argument("-c", "--cover", default=None, help="Изображение для обложки трека")
+    args = p.parse_args()
 
-    for i in range(1, len(sys.argv)):
-        if sys.argv[i] in ("--cover", "-c") and i + 1 < len(sys.argv):
-            cover_path = sys.argv[i + 1]
-            break
+    path_to_folder = args.folder
+    cover_path = args.cover
+    output_path = args.output_path
+    if not output_path:
+        output_path = path_to_folder
 
     try:
         print()
@@ -194,7 +199,7 @@ if __name__ == "__main__":
         if cover_path is not None:
             album.set_cover(cover_path)
         
-        album.slice(path_to_folder)
+        album.slice(output_path)
 
     except Exception as e:
         print(f"Unexpected error: {e}")
